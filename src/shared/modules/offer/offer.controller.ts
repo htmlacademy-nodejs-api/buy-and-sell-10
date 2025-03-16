@@ -9,6 +9,7 @@ import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { fillDTO } from '../../helpers/index.js';
 import { OfferRdo } from './rdo/offer.rdo.js';
+import { CreateOfferRequest } from './type/create-offer-request.type.js';
 
 @injectable()
 export default class OfferController extends BaseController {
@@ -21,6 +22,7 @@ export default class OfferController extends BaseController {
     this.logger.info('Register routes for OfferController');
     this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.show.bind(this) });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index.bind(this) });
+    this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create.bind(this) });
   }
 
   public async show({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
@@ -41,5 +43,11 @@ export default class OfferController extends BaseController {
   public async index(_req: Request, res: Response) {
     const offers = await this.offerService.find();
     this.ok(res, fillDTO(OfferRdo, offers));
+  }
+
+  public async create({ body }: CreateOfferRequest, res: Response): Promise<void> {
+    const result = await this.offerService.create(body);
+    const offer = await this.offerService.findById(String(result.id));
+    this.created(res, fillDTO(OfferRdo, offer));
   }
 }
