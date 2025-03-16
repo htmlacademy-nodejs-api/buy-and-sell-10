@@ -1,3 +1,3 @@
 export interface FileReader {
-  read(): void;
+  read(): Promise<void>;
 }
