@@ -10,7 +10,7 @@
   ],
   "main": "main.js",
   "scripts": {
-    "start": "npm run build && node ./dist/main.rest.js",
+    "start:dev": "npm run ts ./src/main.rest.ts | pino-pretty --colorize --translateTime SYS:standard",
     "build": "npm run clean && npm run compile",
     "lint": "eslint src/",
     "compile": "tsc -p tsconfig.json",
@@ -22,6 +22,7 @@
     "@types/node": "22.13.1",
     "eslint": "9.20.0",
     "json-server": "1.0.0-beta.3",
+    "pino-pretty": "13.0.0",
     "rimraf": "6.0.1",
     "ts-node": "10.9.2",
     "tslib": "2.8.1",
