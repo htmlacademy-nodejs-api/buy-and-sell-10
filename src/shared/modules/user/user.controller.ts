@@ -12,6 +12,7 @@ import { fillDTO } from '../../helpers/index.js';
 import { UserRdo } from './rdo/user.rdo.js';
 import { LoginUserRequest } from './login-user-request.type.js';
 import { CreateUserDto } from './dto/create-user.dto.js';
+import { LoginUserDto } from './dto/login-user.dto.js';
 
 @injectable()
 export class UserController extends BaseController {
@@ -29,7 +30,12 @@ export class UserController extends BaseController {
       handler: this.create.bind(this),
       middlewares: [new ValidateDtoMiddleware(CreateUserDto)]
     });
-    this.addRoute({ path: '/login', method: HttpMethod.Post, handler: this.login.bind(this) });
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Post,
+      handler: this.login.bind(this),
+      middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
+    });
   }
 
   public async create(
