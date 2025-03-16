@@ -17,10 +17,10 @@ export class UserController extends BaseController {
     this.addRoute({ path: '/register', method: HttpMethod.Post, handler: this.create.bind(this) });
   }
 
-  public create(
+  public async create(
     _req: CreateUserRequest,
     _res: Response
-  ): void {
+  ): Promise<void> {
     throw new Error('[UserController] Oops');
   }
 }
