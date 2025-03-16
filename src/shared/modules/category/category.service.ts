@@ -52,6 +52,9 @@ export class DefaultCategoryService implements CategoryService {
             as: 'offers'
           },
         },
-      ]).exec() as Promise<DocumentType<CategoryEntity>[]>;
+        { $addFields:
+            { id: { $toString: '$_id'}, offerCount: { $size: '$offers'} }
+        },
+      ]).exec() as Promise<DocumentType<CategoryEntity>[]>;;
   }
 }
