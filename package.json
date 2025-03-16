@@ -30,5 +30,8 @@
   "engines": {
     "node": ">=22",
     "npm": ">=10"
+  },
+  "dependencies": {
+    "dayjs": "1.11.13"
   }
 }
