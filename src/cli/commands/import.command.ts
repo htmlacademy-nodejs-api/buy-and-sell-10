@@ -1,7 +1,17 @@
 import { Command } from './command.interface.js';
 import { TSVFileReader } from '../../shared/libs/file-reader/index.js';
+import { Offer } from '../../shared/types/offer.type.js';
+import { getErrorMessage } from '../../shared/helpers/index.js';
 
 export class ImportCommand implements Command {
+  private onImportedOffer(offer: Offer): void {
+    console.info(offer);
+  }
+
+  private onCompleteImport(count: number) {
+    console.info(`${count.toString()} rows imported.`);
+  }
+
   public getName(): string {
     return '--import';
   }
@@ -10,17 +20,14 @@ export class ImportCommand implements Command {
     const [filename] = parameters;
     const fileReader = new TSVFileReader(filename.trim());
 
+    fileReader.on('line', this.onImportedOffer.bind(this));
+    fileReader.on('end', this.onCompleteImport.bind(this));
+
     try {
-      fileReader.read();
-      console.log(fileReader.toArray());
-    } catch (err) {
-
-      if (!(err instanceof Error)) {
-        throw err;
-      }
-
+      await fileReader.read();
+    } catch (error) {
       console.error(`Can't import data from file: ${filename}`);
-      console.error(`Details: ${err.message}`);
+      console.error(getErrorMessage(error));
     }
   }
 }
