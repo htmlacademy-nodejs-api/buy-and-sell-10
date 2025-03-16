@@ -20,6 +20,7 @@ export default class OfferController extends BaseController {
 
     this.logger.info('Register routes for OfferController');
     this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.show.bind(this) });
+    this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index.bind(this) });
   }
 
   public async show({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
@@ -35,5 +36,10 @@ export default class OfferController extends BaseController {
     }
 
     this.ok(res, fillDTO(OfferRdo, offer));
+  }
+
+  public async index(_req: Request, res: Response) {
+    const offers = await this.offerService.find();
+    this.ok(res, fillDTO(OfferRdo, offers));
   }
 }
