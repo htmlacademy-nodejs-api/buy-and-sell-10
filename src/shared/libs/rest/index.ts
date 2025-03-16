@@ -7,3 +7,4 @@ export { AppExceptionFilter } from './exception-filter/app-exception-filter.js';
 export { RequestParams } from './types/request.params.type.js';
 export { RequestBody } from './types/request-body.type.js';
 export { HttpError } from './errors/index.js';
+export { RequestQuery } from './types/request-query.type.js';
