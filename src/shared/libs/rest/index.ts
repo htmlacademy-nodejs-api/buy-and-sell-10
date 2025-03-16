@@ -8,3 +8,4 @@ export { RequestParams } from './types/request.params.type.js';
 export { RequestBody } from './types/request-body.type.js';
 export { HttpError } from './errors/index.js';
 export { RequestQuery } from './types/request-query.type.js';
+export { Middleware } from './middleware/middleware.interface.js';
