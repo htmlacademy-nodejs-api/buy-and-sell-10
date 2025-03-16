@@ -1,12 +1,16 @@
+import EventEmitter from 'node:events';
+
 import { FileReader } from './file-reader.interface.js';
 import { Offer, OfferType, User } from '../../types/index.js';
 
-export class TSVFileReader implements FileReader {
+export class TSVFileReader extends EventEmitter implements FileReader {
   private rawData = '';
 
   constructor(
     private readonly filename: string
-  ) {}
+  ) {
+    super();
+  }
 
   private validateRawData(): void {
     if (! this.rawData) {
@@ -61,7 +65,7 @@ export class TSVFileReader implements FileReader {
   }
 
   public read(): void {
-    // Рефакторим метод импорта из файла
+    // Код для работы с потоками
   }
 
   public toArray(): Offer[] {
