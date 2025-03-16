@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import { OfferService } from './offer-service.interface.js';
 import { ParamOfferId } from './type/param-offerid.type.js';
-import { BaseController, HttpError, HttpMethod } from '../../libs/rest/index.js';
+import { BaseController, HttpError, HttpMethod, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
 import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { fillDTO } from '../../helpers/index.js';
@@ -23,7 +23,12 @@ export default class OfferController extends BaseController {
     super(logger);
 
     this.logger.info('Register routes for OfferController');
-    this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.show.bind(this) });
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Get,
+      handler: this.show.bind(this),
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index.bind(this) });
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create.bind(this) });
     this.addRoute({ path: '/:offerId', method: HttpMethod.Delete, handler: this.delete.bind(this) });
