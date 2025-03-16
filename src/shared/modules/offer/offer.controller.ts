@@ -31,9 +31,24 @@ export default class OfferController extends BaseController {
     });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index.bind(this) });
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create.bind(this) });
-    this.addRoute({ path: '/:offerId', method: HttpMethod.Delete, handler: this.delete.bind(this) });
-    this.addRoute({ path: '/:offerId', method: HttpMethod.Patch, handler: this.update.bind(this) });
-    this.addRoute({ path: '/:offerId/comments', method: HttpMethod.Get, handler: this.getComments.bind(this) });
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Delete,
+      handler: this.delete.bind(this),
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Patch,
+      handler: this.update.bind(this),
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
+    this.addRoute({
+      path: '/:offerId/comments',
+      method: HttpMethod.Get,
+      handler: this.getComments.bind(this),
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
   }
 
   public async show({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
