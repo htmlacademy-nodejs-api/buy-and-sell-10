@@ -12,6 +12,7 @@ import { OfferRdo } from './rdo/offer.rdo.js';
 import { CreateOfferRequest } from './type/create-offer-request.type.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { CommentRdo, CommentService } from '../comment/index.js';
+import { DEFAULT_DISCUSSED_OFFER_COUNT, DEFAULT_NEW_OFFER_COUNT } from './offer.constant.js';
 
 @injectable()
 export default class OfferController extends BaseController {
@@ -49,6 +50,8 @@ export default class OfferController extends BaseController {
       handler: this.getComments.bind(this),
       middlewares: [new ValidateObjectIdMiddleware('offerId')]
     });
+    this.addRoute({ path: '/bundles/new', method: HttpMethod.Get, handler: this.getNew.bind(this) });
+    this.addRoute({ path: '/bundles/discussed', method: HttpMethod.Get, handler: this.getDiscussed.bind(this) });
   }
 
   public async show({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
@@ -119,6 +122,16 @@ export default class OfferController extends BaseController {
 
     const comments = await this.commentService.findByOfferId(params.offerId);
     this.ok(res, fillDTO(CommentRdo, comments));
+  }
+
+  public async getNew(_req: Request, res: Response) {
+    const newOffers = await this.offerService.findNew(DEFAULT_NEW_OFFER_COUNT);
+    this.ok(res, fillDTO(OfferRdo, newOffers));
+  }
+
+  public async getDiscussed(_req: Request, res: Response) {
+    const discussedOffers = await this.offerService.findDiscussed(DEFAULT_DISCUSSED_OFFER_COUNT);
+    this.ok(res, fillDTO(OfferRdo, discussedOffers));
   }
 }
 
