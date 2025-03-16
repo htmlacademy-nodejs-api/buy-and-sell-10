@@ -5,7 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 import {
   BaseController,
   HttpError,
-  HttpMethod,
+  HttpMethod, PrivateRouteMiddleware,
   RequestQuery, ValidateDtoMiddleware,
   ValidateObjectIdMiddleware,
 } from '../../libs/rest/index.js';
@@ -34,7 +34,10 @@ export class CategoryController extends BaseController {
       path: '/',
       method: HttpMethod.Post,
       handler: this.create.bind(this),
-      middlewares: [new ValidateDtoMiddleware(CreateCategoryDto)]
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateCategoryDto)
+      ]
     });
     this.addRoute({
       path: '/:categoryId/offers',
