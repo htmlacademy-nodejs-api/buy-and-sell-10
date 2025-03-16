@@ -7,6 +7,8 @@ import { ParamOfferId } from './type/param-offerid.type.js';
 import { BaseController, HttpError, HttpMethod } from '../../libs/rest/index.js';
 import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
+import { fillDTO } from '../../helpers/index.js';
+import { OfferRdo } from './rdo/offer.rdo.js';
 
 @injectable()
 export default class OfferController extends BaseController {
@@ -32,6 +34,6 @@ export default class OfferController extends BaseController {
       );
     }
 
-    this.ok(res, offer);
+    this.ok(res, fillDTO(OfferRdo, offer));
   }
 }
