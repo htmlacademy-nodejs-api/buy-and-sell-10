@@ -10,7 +10,8 @@
   ],
   "main": "main.js",
   "scripts": {
-    "start:dev": "npm run ts ./src/main.rest.ts | pino-pretty --colorize --translateTime SYS:standard",
+    "start": "npm run build && node ./dist/main.rest.js",
+    "start:dev": "nodemon",
     "build": "npm run clean && npm run compile",
     "lint": "eslint src/",
     "compile": "tsc -p tsconfig.json",
