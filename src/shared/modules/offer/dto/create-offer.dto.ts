@@ -27,6 +27,5 @@ export class CreateOfferDto {
   @IsMongoId({ each: true, message: CreateOfferValidationMessage.categories.invalidId })
   public categories: string[];
 
-  @IsMongoId({ message: CreateOfferValidationMessage.userId.invalidId })
   public userId: string;
 }
