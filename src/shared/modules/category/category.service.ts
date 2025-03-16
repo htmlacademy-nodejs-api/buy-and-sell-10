@@ -1,4 +1,4 @@
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { DocumentType, ReturnModelType } from '@typegoose/typegoose';
 
 import { CategoryService } from './category-service.interface.js';
@@ -7,6 +7,7 @@ import { Logger } from '../../libs/logger/index.js';
 import { CategoryEntity } from './category.entity.js';
 import { CreateCategoryDto } from './dto/create-category.dto.js';
 
+@injectable()
 export class DefaultCategoryService implements CategoryService {
   constructor(
     @inject(Component.Logger) private readonly logger: Logger,
@@ -35,5 +36,9 @@ export class DefaultCategoryService implements CategoryService {
     }
 
     return this.create(dto);
+  }
+
+  public async find(): Promise<DocumentType<CategoryEntity>[]> {
+    return this.categoryModel.find();
   }
 }
